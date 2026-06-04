@@ -7,7 +7,11 @@ font-family:'Poppins',sans-serif;
 
 body{
 background:#111;
-color:white;
+color:#fff;
+min-height:100vh;
+}
+
+.login-screen{
 display:flex;
 justify-content:center;
 align-items:center;
@@ -15,53 +19,46 @@ min-height:100vh;
 padding:20px;
 }
 
-.app{
+.login-card{
 width:100%;
 max-width:420px;
 background:#1b1b1b;
-border-radius:30px;
-overflow:hidden;
-box-shadow:0 0 30px rgba(255,140,0,0.3);
-}
-
-header{
-padding:25px;
-background:#ff6b00;
-text-align:center;
-}
-
-.logo img{
-width:90px;
-margin-bottom:10px;
-}
-
-.logo h1{
-font-size:28px;
-font-weight:700;
-}
-
-.login-screen{
 padding:30px;
+border-radius:25px;
+box-shadow:0 0 30px rgba(255,107,0,.25);
 }
 
-.login-screen h2{
-font-size:28px;
-margin-bottom:10px;
+.logo-area{
+text-align:center;
+margin-bottom:25px;
 }
 
-.login-screen p{
-margin-bottom:20px;
+.logo{
+width:100px;
+height:100px;
+object-fit:contain;
+}
+
+.logo-area h1{
+margin-top:10px;
+color:#ff6b00;
+font-size:2rem;
+}
+
+.logo-area p{
 color:#ccc;
+margin-top:8px;
 }
 
-input, select{
+.form-group input,
+.form-group select{
 width:100%;
 padding:15px;
 margin-bottom:15px;
 border:none;
-border-radius:14px;
-background:#2b2b2b;
-color:white;
+border-radius:12px;
+background:#2a2a2a;
+color:#fff;
 font-size:15px;
 }
 
@@ -69,88 +66,136 @@ button{
 width:100%;
 padding:15px;
 border:none;
-border-radius:14px;
+border-radius:12px;
 background:#ff6b00;
-color:white;
+color:#fff;
 font-size:16px;
 font-weight:600;
 cursor:pointer;
-transition:0.3s;
+transition:.3s;
 }
 
 button:hover
 
-.dashboard{
+.app-screen{
 display:none;
-padding:25px;
+padding-bottom:90px;
 }
 
-.welcome{
-margin-bottom:20px;
+.topbar{
+background:#ff6b00;
+padding:20px;
 }
 
-.cards{
+.topbar h2{
+font-size:1.5rem;
+}
+
+.dashboard{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(2,1fr);
 gap:15px;
-margin-bottom:25px;
+padding:20px;
 }
 
 .card{
-background:#252525;
+background:#1d1d1d;
 padding:20px;
-border-radius:20px;
+border-radius:18px;
 text-align:center;
+border:1px solid #333;
 }
 
 .card h3{
-font-size:15px;
+color:#ff6b00;
 margin-bottom:10px;
-color:#ff8c00;
 }
 
 .card p{
-font-size:20px;
-font-weight:700;
+font-size:1.4rem;
+font-weight:bold;
 }
 
-.alimentacao-box{
-margin-bottom:25px;
+.alimentacao,
+.resultado,
+.calendario,
+.objetivos{
+margin:20px;
+background:#1d1d1d;
+padding:20px;
+border-radius:18px;
 }
 
-.alimentacao-box h2{
+.alimentacao h2,
+.resultado h2,
+.calendario h2,
+.objetivos h2{
 margin-bottom:15px;
+color:#ff6b00;
 }
 
-.resultado{
-background:#252525;
-padding:20px;
-border-radius:20px;
-margin-bottom:25px;
-}
-
-.calendario{
-background:#252525;
-padding:20px;
-border-radius:20px;
-margin-bottom:25px;
+.alimentacao input{
+width:100%;
+padding:14px;
+margin-bottom:12px;
+border:none;
+border-radius:12px;
+background:#2a2a2a;
+color:#fff;
 }
 
 .refeicao{
 padding:12px;
-border-bottom:1px solid #333;
+margin-bottom:10px;
+background:#262626;
+border-radius:10px;
+}
+
+.objetivos ul{
+list-style:none;
+}
+
+.objetivos li{
+margin-bottom:10px;
 }
 
 .menu{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#151515;
 display:flex;
 justify-content:space-around;
-background:#151515;
-padding:15px;
+padding:12px;
+border-top:1px solid #333;
 }
 
 .menu button{
 width:auto;
-padding:10px;
 background:none;
+color:#fff;
 font-size:14px;
+padding:8px;
+}
+
+.menu button:hover{
+color:#ff6b00;
+background:none;
+}
+
+@media(max-width:480px){
+
+.dashboard{
+grid-template-columns:1fr;
+}
+
+.logo{
+width:80px;
+}
+
+.logo-area h1{
+font-size:1.7rem;
+}
+
 }
