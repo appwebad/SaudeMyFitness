@@ -273,6 +273,10 @@ window.addEventListener("DOMContentLoaded", function () {
 
   if (loginScreen) {
     loginScreen.style.display = "flex";
+    window.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("app").style.display = "none";
+  document.getElementById("loginScreen").style.display = "flex";
+
   }
 });
 
