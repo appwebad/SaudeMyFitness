@@ -241,3 +241,17 @@ function sairApp(){
   document.getElementById("app").style.display = "none";
   document.getElementById("loginScreen").style.display = "flex";
 }
+
+window.addEventListener("DOMContentLoaded", function () {
+  const app = document.getElementById("app");
+  const loginScreen = document.getElementById("loginScreen");
+
+  if (app) {
+    app.style.display = "none";
+  }
+
+  if (loginScreen) {
+    loginScreen.style.display = "flex";
+  }
+});
+
