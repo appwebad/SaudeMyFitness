@@ -21,12 +21,12 @@ const alimentos = {
   "frango": { carbo:0, proteina:31, gordura:3.6, calorias:165, fibras:0 }
 };
 
-function entrarApp(){
+function entrarApp() {
   const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
   const objetivo = document.getElementById("objetivo").value;
 
-  if(nome === "" || email === "" || objetivo === ""){
+  if (!nome || !email || !objetivo) {
     alert("Preencha todos os campos.");
     return;
   }
@@ -35,18 +35,39 @@ function entrarApp(){
   localStorage.setItem("usuarioEmail", email);
   localStorage.setItem("objetivo", objetivo);
 
-  document.getElementById("usuarioNome").innerText = "Olá, " + nome + " 👋";
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("app").style.display = "block";
+  const usuarioNome = document.getElementById("usuarioNome");
+  const loginScreen = document.getElementById("loginScreen");
+  const app = document.getElementById("app");
+
+  if (usuarioNome) {
+    usuarioNome.innerText = "Olá, " + nome + " 👋";
+  }
+
+  if (loginScreen) {
+    loginScreen.style.display = "none";
+  }
+
+  if (app) {
+    app.style.display = "block";
+  }
 
   mostrarPagina("dashboardPage");
   atualizarDashboard();
-}
 
-function mostrarPagina(id){
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.remove("active");
+  salvarNaPlanilha({
+    tipo: "Login",
+    nome: nome,
+    email: email,
+    objetivo: objetivo,
+    alimento: "",
+    quantidade: "",
+    carboidratos: "",
+    calorias: "",
+    agua: "",
+    energia: "Login realizado",
+    intestino: ""
   });
+}
 
   document.getElementById(id).classList.add("active");
 }
