@@ -2,6 +2,8 @@ let totalCarbo = 0;
 let totalCalorias = 0;
 let aguaConsumida = 0;
 
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzjwB8gVtsB6umfaGODh9YSOKn83bfaIu8HZFOM2Ja2cvyAihFJgY-zAKIMJkEyhhlGFg/exec";
+
 const alimentos = {
   "inhame": { carbo:27, proteina:1.5, gordura:0.2, calorias:118, fibras:4.1 },
   "banana": { carbo:23, proteina:1.1, gordura:0.3, calorias:89, fibras:2.6 },
@@ -11,7 +13,12 @@ const alimentos = {
   "ovo": { carbo:0.6, proteina:13, gordura:11, calorias:155, fibras:0 },
   "mamão": { carbo:11, proteina:0.5, gordura:0.3, calorias:43, fibras:1.7 },
   "maçã": { carbo:14, proteina:0.3, gordura:0.2, calorias:52, fibras:2.4 },
-  "aveia": { carbo:66, proteina:17, gordura:7, calorias:389, fibras:10.6 }
+  "aveia": { carbo:66, proteina:17, gordura:7, calorias:389, fibras:10.6 },
+  "couve": { carbo:4.3, proteina:2.9, gordura:0.5, calorias:32, fibras:3.1 },
+  "alface": { carbo:2.9, proteina:1.4, gordura:0.2, calorias:15, fibras:1.3 },
+  "cenoura": { carbo:10, proteina:0.9, gordura:0.2, calorias:41, fibras:2.8 },
+  "beterraba": { carbo:10, proteina:1.6, gordura:0.2, calorias:43, fibras:2.8 },
+  "frango": { carbo:0, proteina:31, gordura:3.6, calorias:165, fibras:0 }
 };
 
 function entrarApp(){
@@ -84,6 +91,20 @@ function calcularAlimento(){
     <p><strong>Fibras:</strong> ${fibras.toFixed(1)}g</p>
   `;
 
+  const dadosPlanilha = {
+    nome: localStorage.getItem("usuarioNome") || "",
+    email: localStorage.getItem("usuarioEmail") || "",
+    objetivo: localStorage.getItem("objetivo") || "",
+    alimento: nomeAlimento,
+    quantidade: quantidade + "g",
+    carboidratos: carbo.toFixed(1),
+    calorias: calorias.toFixed(0),
+    agua: (aguaConsumida / 1000).toFixed(1) + "L",
+    energia: definirEnergia(),
+    intestino: definirIntestino()
+  };
+
+  salvarNaPlanilha(dadosPlanilha);
   atualizarDashboard();
   mostrarPagina("dashboardPage");
 }
@@ -100,6 +121,21 @@ function adicionarAgua(ml){
     falta > 0
     ? `Faltam ${falta.toFixed(1)}L para sua meta diária.`
     : "Parabéns! Você bateu sua meta de água.";
+
+  const dadosPlanilha = {
+    nome: localStorage.getItem("usuarioNome") || "",
+    email: localStorage.getItem("usuarioEmail") || "",
+    objetivo: localStorage.getItem("objetivo") || "",
+    alimento: "Água",
+    quantidade: ml + "ml",
+    carboidratos: "0",
+    calorias: "0",
+    agua: litros.toFixed(1) + "L",
+    energia: definirEnergia(),
+    intestino: definirIntestino()
+  };
+
+  salvarNaPlanilha(dadosPlanilha);
 }
 
 function atualizarDashboard(){
@@ -116,21 +152,52 @@ function atualizarDashboard(){
   document.getElementById("relAgua").innerText = litros.toFixed(1) + "L";
   document.getElementById("relCalorias").innerText = totalCalorias.toFixed(0) + " kcal";
 
-  if(totalCarbo < 80){
-    document.getElementById("energiaTotal").innerText = "Baixa";
-  }else if(totalCarbo <= 250){
-    document.getElementById("energiaTotal").innerText = "Boa";
-  }else{
-    document.getElementById("energiaTotal").innerText = "Alta";
-  }
+  document.getElementById("energiaTotal").innerText = definirEnergia();
+  document.getElementById("intestinalTotal").innerText = definirIntestino();
 
   if(litros >= 1.8){
-    document.getElementById("intestinalTotal").innerText = "Equilibrado";
     document.getElementById("scoreIntestinal").innerText = "85%";
   }else{
-    document.getElementById("intestinalTotal").innerText = "Atenção";
     document.getElementById("scoreIntestinal").innerText = "60%";
   }
+}
+
+function definirEnergia(){
+  if(totalCarbo < 80){
+    return "Baixa";
+  }else if(totalCarbo <= 250){
+    return "Boa";
+  }else{
+    return "Alta";
+  }
+}
+
+function definirIntestino(){
+  const litros = aguaConsumida / 1000;
+
+  if(litros >= 1.8){
+    return "Equilibrado";
+  }else{
+    return "Atenção";
+  }
+}
+
+function salvarNaPlanilha(dados){
+  if(WEBAPP_URL === "https://script.google.com/macros/s/AKfycbzjwB8gVtsB6umfaGODh9YSOKn83bfaIu8HZFOM2Ja2cvyAihFJgY-zAKIMJkEyhhlGFg/exec"){
+    console.log("URL do Apps Script ainda não configurada.", dados);
+    return;
+  }
+
+  fetch(WEBAPP_URL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(dados)
+  });
+
+  console.log("Dados enviados para a planilha:", dados);
 }
 
 function responderIA(){
@@ -162,4 +229,14 @@ function responderIA(){
 
   document.getElementById("perguntaIA").value = "";
   chat.scrollTop = chat.scrollHeight;
+}
+
+function sairApp(){
+  localStorage.clear();
+  totalCarbo = 0;
+  totalCalorias = 0;
+  aguaConsumida = 0;
+
+  document.getElementById("app").style.display = "none";
+  document.getElementById("loginScreen").style.display = "flex";
 }
