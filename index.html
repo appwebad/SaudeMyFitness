@@ -50,12 +50,55 @@
 <main>
 
 <section id="dashboardPage" class="page active">
+
   <div class="grid">
+
     <div class="card">
       <h3>Carboidratos</h3>
       <strong id="carboTotal">0g</strong>
       <small>meta 250g</small>
     </div>
+
+    <div class="card">
+      <h3>Água</h3>
+      <strong id="aguaTotal">0L</strong>
+      <small>meta 2,1L</small>
+    </div>
+
+    <div class="card">
+      <h3>Energia</h3>
+      <strong id="energiaTotal">Boa</strong>
+      <small>disposição hoje</small>
+    </div>
+
+    <div class="card">
+      <h3>Intestino</h3>
+      <strong id="intestinalTotal">Equilibrado</strong>
+      <small>muito bem</small>
+    </div>
+
+  </div>
+
+  <div class="panel">
+    <h3>Calorias</h3>
+    <p><strong id="caloriasTotal">0 kcal</strong> de 2.100 kcal</p>
+    <div class="progress"><span id="caloriasBar"></span></div>
+  </div>
+
+  <div class="panel">
+    <h3>Próxima refeição</h3>
+    <p>Lanche da tarde - 15:00</p>
+  </div>
+
+  <div class="panel quick-actions">
+    <h3>Acessos rápidos</h3>
+    <button onclick="mostrarPagina('calendarioPage')">📅 Calendário</button>
+    <button onclick="mostrarPagina('relatoriosPage')">📊 Relatórios</button>
+    <button onclick="mostrarPagina('intestinalPage')">🦠 Saúde Intestinal</button>
+    <button onclick="sairApp()">🚪 Sair</button>
+  </div>
+
+</section>
 
     <div class="card">
       <h3>Água</h3>
