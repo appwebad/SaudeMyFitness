@@ -21,12 +21,12 @@ const alimentos = {
   "frango": { carbo:0, proteina:31, gordura:3.6, calorias:165, fibras:0 }
 };
 
-function entrarApp() {
+function entrarApp(){
   const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
   const objetivo = document.getElementById("objetivo").value;
 
-  if (!nome || !email || !objetivo) {
+  if(!nome || !email || !objetivo){
     alert("Preencha todos os campos.");
     return;
   }
@@ -35,41 +35,38 @@ function entrarApp() {
   localStorage.setItem("usuarioEmail", email);
   localStorage.setItem("objetivo", objetivo);
 
-  const usuarioNome = document.getElementById("usuarioNome");
-  const loginScreen = document.getElementById("loginScreen");
-  const app = document.getElementById("app");
-
-  if (usuarioNome) {
-    usuarioNome.innerText = "Olá, " + nome + " 👋";
-  }
-
-  if (loginScreen) {
-    loginScreen.style.display = "none";
-  }
-
-  if (app) {
-    app.style.display = "block";
-  }
+  document.getElementById("usuarioNome").innerText = "Olá, " + nome + " 👋";
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("app").style.display = "block";
 
   mostrarPagina("dashboardPage");
   atualizarDashboard();
 
   salvarNaPlanilha({
-    tipo: "Login",
-    nome: nome,
-    email: email,
-    objetivo: objetivo,
-    alimento: "",
-    quantidade: "",
-    carboidratos: "",
-    calorias: "",
-    agua: "",
-    energia: "Login realizado",
-    intestino: ""
+    tipo:"Login",
+    nome:nome,
+    email:email,
+    objetivo:objetivo,
+    alimento:"",
+    quantidade:"",
+    carboidratos:"",
+    calorias:"",
+    agua:"",
+    energia:"Login realizado",
+    intestino:""
   });
 }
 
-  document.getElementById(id).classList.add("active");
+function mostrarPagina(id){
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  const pagina = document.getElementById(id);
+
+  if(pagina){
+    pagina.classList.add("active");
+  }
 }
 
 function voltarDashboard(){
@@ -80,7 +77,7 @@ function calcularAlimento(){
   const nomeAlimento = document.getElementById("alimento").value.toLowerCase().trim();
   const quantidade = parseFloat(document.getElementById("quantidade").value);
 
-  if(nomeAlimento === "" || isNaN(quantidade) || quantidade <= 0){
+  if(!nomeAlimento || isNaN(quantidade) || quantidade <= 0){
     alert("Digite o alimento e a quantidade corretamente.");
     return;
   }
@@ -113,20 +110,20 @@ function calcularAlimento(){
     <p><strong>Fibras:</strong> ${fibras.toFixed(1)}g</p>
   `;
 
-  const dadosPlanilha = {
-    nome: localStorage.getItem("usuarioNome") || "",
-    email: localStorage.getItem("usuarioEmail") || "",
-    objetivo: localStorage.getItem("objetivo") || "",
-    alimento: nomeAlimento,
-    quantidade: quantidade + "g",
-    carboidratos: carbo.toFixed(1),
-    calorias: calorias.toFixed(0),
-    agua: (aguaConsumida / 1000).toFixed(1) + "L",
-    energia: definirEnergia(),
-    intestino: definirIntestino()
-  };
+  salvarNaPlanilha({
+    tipo:"Alimentação",
+    nome:localStorage.getItem("usuarioNome") || "",
+    email:localStorage.getItem("usuarioEmail") || "",
+    objetivo:localStorage.getItem("objetivo") || "",
+    alimento:nomeAlimento,
+    quantidade:quantidade + "g",
+    carboidratos:carbo.toFixed(1),
+    calorias:calorias.toFixed(0),
+    agua:(aguaConsumida / 1000).toFixed(1) + "L",
+    energia:definirEnergia(),
+    intestino:definirIntestino()
+  });
 
-  salvarNaPlanilha(dadosPlanilha);
   atualizarDashboard();
   mostrarPagina("dashboardPage");
 }
@@ -144,54 +141,59 @@ function adicionarAgua(ml){
     ? `Faltam ${falta.toFixed(1)}L para sua meta diária.`
     : "Parabéns! Você bateu sua meta de água.";
 
-  const dadosPlanilha = {
-    nome: localStorage.getItem("usuarioNome") || "",
-    email: localStorage.getItem("usuarioEmail") || "",
-    objetivo: localStorage.getItem("objetivo") || "",
-    alimento: "Água",
-    quantidade: ml + "ml",
-    carboidratos: "0",
-    calorias: "0",
-    agua: litros.toFixed(1) + "L",
-    energia: definirEnergia(),
-    intestino: definirIntestino()
-  };
-
-  salvarNaPlanilha(dadosPlanilha);
+  salvarNaPlanilha({
+    tipo:"Água",
+    nome:localStorage.getItem("usuarioNome") || "",
+    email:localStorage.getItem("usuarioEmail") || "",
+    objetivo:localStorage.getItem("objetivo") || "",
+    alimento:"Água",
+    quantidade:ml + "ml",
+    carboidratos:"0",
+    calorias:"0",
+    agua:litros.toFixed(1) + "L",
+    energia:definirEnergia(),
+    intestino:definirIntestino()
+  });
 }
 
 function atualizarDashboard(){
   const litros = aguaConsumida / 1000;
   const caloriasPercentual = Math.min((totalCalorias / 2100) * 100, 100);
 
-  document.getElementById("carboTotal").innerText = totalCarbo.toFixed(0) + "g";
-  document.getElementById("aguaTotal").innerText = litros.toFixed(1) + "L";
-  document.getElementById("aguaCircle").innerText = litros.toFixed(1) + "L";
-  document.getElementById("caloriasTotal").innerText = totalCalorias.toFixed(0) + " kcal";
-  document.getElementById("caloriasBar").style.width = caloriasPercentual + "%";
+  atualizarTexto("carboTotal", totalCarbo.toFixed(0) + "g");
+  atualizarTexto("aguaTotal", litros.toFixed(1) + "L");
+  atualizarTexto("aguaCircle", litros.toFixed(1) + "L");
+  atualizarTexto("caloriasTotal", totalCalorias.toFixed(0) + " kcal");
+  atualizarTexto("relCarbo", totalCarbo.toFixed(0) + "g");
+  atualizarTexto("relAgua", litros.toFixed(1) + "L");
+  atualizarTexto("relCalorias", totalCalorias.toFixed(0) + " kcal");
+  atualizarTexto("energiaTotal", definirEnergia());
+  atualizarTexto("intestinalTotal", definirIntestino());
+  atualizarTexto("scoreIntestinal", litros >= 1.8 ? "85%" : "60%");
 
-  document.getElementById("relCarbo").innerText = totalCarbo.toFixed(0) + "g";
-  document.getElementById("relAgua").innerText = litros.toFixed(1) + "L";
-  document.getElementById("relCalorias").innerText = totalCalorias.toFixed(0) + " kcal";
+  const barra = document.getElementById("caloriasBar");
+  if(barra){
+    barra.style.width = caloriasPercentual + "%";
+  }
+}
 
-  document.getElementById("energiaTotal").innerText = definirEnergia();
-  document.getElementById("intestinalTotal").innerText = definirIntestino();
-
-  if(litros >= 1.8){
-    document.getElementById("scoreIntestinal").innerText = "85%";
-  }else{
-    document.getElementById("scoreIntestinal").innerText = "60%";
+function atualizarTexto(id, valor){
+  const elemento = document.getElementById(id);
+  if(elemento){
+    elemento.innerText = valor;
   }
 }
 
 function definirEnergia(){
   if(totalCarbo < 80){
     return "Baixa";
-  }else if(totalCarbo <= 250){
-    return "Boa";
-  }else{
-    return "Alta";
   }
+
+  if(totalCarbo <= 250){
+    return "Boa";
+  }
+
+  return "Alta";
 }
 
 function definirIntestino(){
@@ -199,23 +201,15 @@ function definirIntestino(){
 
   if(litros >= 1.8){
     return "Equilibrado";
-  }else{
-    return "Atenção";
   }
+
+  return "Atenção";
 }
 
 function salvarNaPlanilha(dados){
-  if(WEBAPP_URL === "https://script.google.com/macros/s/AKfycbzjwB8gVtsB6umfaGODh9YSOKn83bfaIu8HZFOM2Ja2cvyAihFJgY-zAKIMJkEyhhlGFg/exec"){
-    console.log("URL do Apps Script ainda não configurada.", dados);
-    return;
-  }
-
   fetch(WEBAPP_URL,{
     method:"POST",
     mode:"no-cors",
-    headers:{
-      "Content-Type":"application/json"
-    },
     body:JSON.stringify(dados)
   });
 
@@ -225,7 +219,7 @@ function salvarNaPlanilha(dados){
 function responderIA(){
   const pergunta = document.getElementById("perguntaIA").value.trim();
 
-  if(pergunta === ""){
+  if(!pergunta){
     return;
   }
 
@@ -248,7 +242,6 @@ function responderIA(){
   }
 
   chat.innerHTML += `<div class="bot">${resposta}</div>`;
-
   document.getElementById("perguntaIA").value = "";
   chat.scrollTop = chat.scrollHeight;
 }
@@ -263,20 +256,7 @@ function sairApp(){
   document.getElementById("loginScreen").style.display = "flex";
 }
 
-window.addEventListener("DOMContentLoaded", function () {
-  const app = document.getElementById("app");
-  const loginScreen = document.getElementById("loginScreen");
-
-  if (app) {
-    app.style.display = "none";
-  }
-
-  if (loginScreen) {
-    loginScreen.style.display = "flex";
-    window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", function(){
   document.getElementById("app").style.display = "none";
   document.getElementById("loginScreen").style.display = "flex";
-
-  }
 });
-
