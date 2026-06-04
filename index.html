@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SaudeMyFitness</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<meta name="theme-color" content="#ff6b00">
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<section id="loginScreen" class="login-screen">
+
+<div class="login-card">
+
+<div class="logo-area">
+
+<img src="logo.png" alt="SaudeMyFitness" class="logo">
+
+<h1>SaudeMyFitness</h1>
+
+<p>
+Saúde, Nutrição e Energia para o seu dia.
+</p>
+
+</div>
+
+<div class="form-group">
+
+<input
+type="text"
+id="nome"
+placeholder="Digite seu nome"
+>
+
+<input
+type="email"
+id="email"
+placeholder="Digite seu e-mail"
+>
+
+<select id="objetivo">
+
+<option value="">
+Selecione seu objetivo
+</option>
+
+<option value="emagrecer">
+Emagrecer
+</option>
+
+<option value="ganhar_massa">
+Ganhar Massa Muscular
+</option>
+
+<option value="definicao">
+Definição Corporal
+</option>
+
+<option value="manter_peso">
+Manter Peso
+</option>
+
+<option value="melhorar_alimentacao">
+Melhorar Alimentação
+</option>
+
+<option value="energia">
+Aumentar Energia
+</option>
+
+<option value="intestinal">
+Saúde Intestinal
+</option>
+
+<option value="ganho_peso">
+Ganho de Peso Saudável
+</option>
+
+</select>
+
+<button onclick="entrarApp()">
+Entrar
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- APP -->
+
+<section id="appScreen" class="app-screen">
+
+<header class="topbar">
+
+<div>
+<h2 id="usuarioNome">
+Olá
+</h2>
+
+<span>
+Bem-vindo ao SaudeMyFitness
+</span>
+</div>
+
+</header>
+
+<!-- DASHBOARD -->
+
+<section class="dashboard">
+
+<div class="card">
+
+<h3>Carboidratos</h3>
+
+<p id="carboTotal">
+0g
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Água Ideal</h3>
+
+<p id="aguaTotal">
+2.1L
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Energia</h3>
+
+<p id="energiaTotal">
+Boa
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Intestino</h3>
+
+<p id="intestinalTotal">
+Equilibrado
+</p>
+
+</div>
+
+</section>
+
+<!-- REGISTRO ALIMENTAR -->
+
+<section class="alimentacao">
+
+<h2>
+Registrar Alimentação
+</h2>
+
+<input
+type="text"
+id="alimento"
+placeholder="Ex: Inhame"
+>
+
+<input
+type="number"
+id="quantidade"
+placeholder="Quantidade em gramas"
+>
+
+<button onclick="calcularAlimento()">
+Calcular
+</button>
+
+</section>
+
+<!-- RESULTADO -->
+
+<section class="resultado">
+
+<h2>
+Resultado Nutricional
+</h2>
+
+<div id="resultado">
+
+<p>
+Nenhum alimento registrado.
+</p>
+
+</div>
+
+</section>
+
+<!-- CALENDÁRIO -->
+
+<section class="calendario">
+
+<h2>
+Calendário Alimentar
+</h2>
+
+<div class="refeicao">
+☀️ Café da Manhã
+</div>
+
+<div class="refeicao">
+🍎 Lanche da Manhã
+</div>
+
+<div class="refeicao">
+🍛 Almoço
+</div>
+
+<div class="refeicao">
+🥪 Lanche da Tarde
+</div>
+
+<div class="refeicao">
+🥗 Jantar
+</div>
+
+<div class="refeicao">
+💧 Água do Dia
+</div>
+
+</section>
+
+<!-- OBJETIVOS -->
+
+<section class="objetivos">
+
+<h2>
+Objetivos Nutricionais
+</h2>
+
+<ul>
+
+<li>✅ Melhorar Alimentação</li>
+
+<li>✅ Aumentar Energia</li>
+
+<li>✅ Saúde Intestinal</li>
+
+<li>✅ Controle de Carboidratos</li>
+
+<li>✅ Hidratação Diária</li>
+
+</ul>
+
+</section>
+
+<!-- MENU -->
+
+<nav class="menu">
+
+<button>
+🏠 Home
+</button>
+
+<button>
+🍎 Nutrição
+</button>
+
+<button>
+💧 Água
+</button>
+
+<button>
+📊 Relatórios
+</button>
+
+<button>
+🤖 IA
+</button>
+
+</nav>
+
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
