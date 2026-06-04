@@ -39,6 +39,7 @@ function entrarApp(){
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
 
+  mostrarPagina("dashboardPage");
   atualizarDashboard();
 }
 
