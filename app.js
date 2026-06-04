@@ -1,78 +1,165 @@
+let totalCarbo = 0;
+let totalCalorias = 0;
+let aguaConsumida = 0;
+
+const alimentos = {
+  "inhame": { carbo:27, proteina:1.5, gordura:0.2, calorias:118, fibras:4.1 },
+  "banana": { carbo:23, proteina:1.1, gordura:0.3, calorias:89, fibras:2.6 },
+  "arroz": { carbo:28, proteina:2.7, gordura:0.3, calorias:130, fibras:1.6 },
+  "arroz branco": { carbo:28, proteina:2.7, gordura:0.3, calorias:130, fibras:1.6 },
+  "batata doce": { carbo:20, proteina:1.6, gordura:0.1, calorias:86, fibras:3 },
+  "ovo": { carbo:0.6, proteina:13, gordura:11, calorias:155, fibras:0 },
+  "mamão": { carbo:11, proteina:0.5, gordura:0.3, calorias:43, fibras:1.7 },
+  "maçã": { carbo:14, proteina:0.3, gordura:0.2, calorias:52, fibras:2.4 },
+  "aveia": { carbo:66, proteina:17, gordura:7, calorias:389, fibras:10.6 }
+};
+
 function entrarApp(){
+  const nome = document.getElementById("nome").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const objetivo = document.getElementById("objetivo").value;
 
-const nome = document.getElementById("nome").value;
+  if(nome === "" || email === "" || objetivo === ""){
+    alert("Preencha todos os campos.");
+    return;
+  }
 
-const email = document.getElementById("email").value;
+  localStorage.setItem("usuarioNome", nome);
+  localStorage.setItem("usuarioEmail", email);
+  localStorage.setItem("objetivo", objetivo);
 
-const objetivo = document.getElementById("objetivo").value;
+  document.getElementById("usuarioNome").innerText = "Olá, " + nome + " 👋";
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("app").style.display = "block";
 
-if(nome === "" || email === "" || objetivo === ""){
-
-alert("Preencha todos os campos");
-
-return;
-
+  atualizarDashboard();
 }
 
-localStorage.setItem("usuarioNome", nome);
+function mostrarPagina(id){
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
 
-document.getElementById("usuarioNome").innerHTML = "Olá, " + nome;
+  document.getElementById(id).classList.add("active");
+}
 
-document.getElementById("loginScreen").style.display = "none";
-
-document.getElementById("dashboard").style.display = "block";
-
+function voltarDashboard(){
+  mostrarPagina("dashboardPage");
 }
 
 function calcularAlimento(){
+  const nomeAlimento = document.getElementById("alimento").value.toLowerCase().trim();
+  const quantidade = parseFloat(document.getElementById("quantidade").value);
 
-const alimento = document.getElementById("alimento").value.toLowerCase();
+  if(nomeAlimento === "" || isNaN(quantidade) || quantidade <= 0){
+    alert("Digite o alimento e a quantidade corretamente.");
+    return;
+  }
 
-const quantidade = parseFloat(document.getElementById("quantidade").value);
+  const dados = alimentos[nomeAlimento] || {
+    carbo:10,
+    proteina:1,
+    gordura:0.5,
+    calorias:60,
+    fibras:1
+  };
 
-let carbo = 0;
+  const carbo = (dados.carbo * quantidade) / 100;
+  const proteina = (dados.proteina * quantidade) / 100;
+  const gordura = (dados.gordura * quantidade) / 100;
+  const calorias = (dados.calorias * quantidade) / 100;
+  const fibras = (dados.fibras * quantidade) / 100;
 
-let energia = "Boa";
+  totalCarbo += carbo;
+  totalCalorias += calorias;
 
-if(alimento === "inhame"){
-carbo = (27 * quantidade) / 100;
+  document.getElementById("resultado").innerHTML = `
+    <h3>Resultado</h3>
+    <p><strong>Alimento:</strong> ${nomeAlimento}</p>
+    <p><strong>Quantidade:</strong> ${quantidade}g</p>
+    <p><strong>Carboidratos:</strong> ${carbo.toFixed(1)}g</p>
+    <p><strong>Proteínas:</strong> ${proteina.toFixed(1)}g</p>
+    <p><strong>Gorduras:</strong> ${gordura.toFixed(1)}g</p>
+    <p><strong>Calorias:</strong> ${calorias.toFixed(0)} kcal</p>
+    <p><strong>Fibras:</strong> ${fibras.toFixed(1)}g</p>
+  `;
+
+  atualizarDashboard();
+  mostrarPagina("dashboardPage");
 }
 
-else if(alimento === "banana"){
-carbo = (23 * quantidade) / 100;
+function adicionarAgua(ml){
+  aguaConsumida += ml;
+
+  atualizarDashboard();
+
+  const litros = aguaConsumida / 1000;
+  const falta = Math.max(2.1 - litros, 0);
+
+  document.getElementById("aguaMensagem").innerText =
+    falta > 0
+    ? `Faltam ${falta.toFixed(1)}L para sua meta diária.`
+    : "Parabéns! Você bateu sua meta de água.";
 }
 
-else if(alimento === "arroz"){
-carbo = (28 * quantidade) / 100;
+function atualizarDashboard(){
+  const litros = aguaConsumida / 1000;
+  const caloriasPercentual = Math.min((totalCalorias / 2100) * 100, 100);
+
+  document.getElementById("carboTotal").innerText = totalCarbo.toFixed(0) + "g";
+  document.getElementById("aguaTotal").innerText = litros.toFixed(1) + "L";
+  document.getElementById("aguaCircle").innerText = litros.toFixed(1) + "L";
+  document.getElementById("caloriasTotal").innerText = totalCalorias.toFixed(0) + " kcal";
+  document.getElementById("caloriasBar").style.width = caloriasPercentual + "%";
+
+  document.getElementById("relCarbo").innerText = totalCarbo.toFixed(0) + "g";
+  document.getElementById("relAgua").innerText = litros.toFixed(1) + "L";
+  document.getElementById("relCalorias").innerText = totalCalorias.toFixed(0) + " kcal";
+
+  if(totalCarbo < 80){
+    document.getElementById("energiaTotal").innerText = "Baixa";
+  }else if(totalCarbo <= 250){
+    document.getElementById("energiaTotal").innerText = "Boa";
+  }else{
+    document.getElementById("energiaTotal").innerText = "Alta";
+  }
+
+  if(litros >= 1.8){
+    document.getElementById("intestinalTotal").innerText = "Equilibrado";
+    document.getElementById("scoreIntestinal").innerText = "85%";
+  }else{
+    document.getElementById("intestinalTotal").innerText = "Atenção";
+    document.getElementById("scoreIntestinal").innerText = "60%";
+  }
 }
 
-else if(alimento === "batata doce"){
-carbo = (20 * quantidade) / 100;
-}
+function responderIA(){
+  const pergunta = document.getElementById("perguntaIA").value.trim();
 
-else{
-carbo = (10 * quantidade) / 100;
-}
+  if(pergunta === ""){
+    return;
+  }
 
-document.getElementById("carboTotal").innerHTML =
-carbo.toFixed(1) + "g";
+  const chat = document.getElementById("chat");
 
-document.getElementById("resultado").innerHTML = `
+  chat.innerHTML += `<div class="user">${pergunta}</div>`;
 
-<h3>Resultado Nutricional</h3>
+  let resposta = "Para melhorar sua alimentação, mantenha boa hidratação, inclua fibras e prefira alimentos naturais.";
 
-<p><strong>Alimento:</strong> ${alimento}</p>
+  if(pergunta.toLowerCase().includes("carbo")){
+    resposta = `Hoje você consumiu aproximadamente ${totalCarbo.toFixed(0)}g de carboidratos.`;
+  }
 
-<p><strong>Quantidade:</strong> ${quantidade}g</p>
+  if(pergunta.toLowerCase().includes("água") || pergunta.toLowerCase().includes("agua")){
+    resposta = `Você bebeu ${(aguaConsumida / 1000).toFixed(1)}L de água. Sua meta é 2,1L por dia.`;
+  }
 
-<p><strong>Carboidratos:</strong> ${carbo.toFixed(1)}g</p>
+  if(pergunta.toLowerCase().includes("intestino")){
+    resposta = "Para ajudar o intestino, consuma água, mamão, aveia, chia, linhaça, verduras e legumes.";
+  }
 
-<p><strong>Energia:</strong> ${energia}</p>
+  chat.innerHTML += `<div class="bot">${resposta}</div>`;
 
-<p><strong>Água ideal:</strong> 2.1L</p>
-
-<p><strong>Saúde intestinal:</strong> Equilibrada</p>
-
-`;
-
+  document.getElementById("perguntaIA").value = "";
+  chat.scrollTop = chat.scrollHeight;
 }
