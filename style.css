@@ -1,304 +1,299 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SaudeMyFitness</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="manifest" href="manifest.json">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<meta name="theme-color" content="#ff6b00">
-
-</head>
-
-<body>
-
-<!-- LOGIN -->
-
-<section id="loginScreen" class="login-screen">
-
-<div class="login-card">
-
-<div class="logo-area">
-
-<img src="logo.png" alt="SaudeMyFitness" class="logo">
-
-<h1>SaudeMyFitness</h1>
-
-<p>
-Saúde, Nutrição e Energia para o seu dia.
-</p>
-
-</div>
-
-<div class="form-group">
-
-<input
-type="text"
-id="nome"
-placeholder="Digite seu nome"
->
-
-<input
-type="email"
-id="email"
-placeholder="Digite seu e-mail"
->
-
-<select id="objetivo">
-
-<option value="">
-Selecione seu objetivo
-</option>
-
-<option value="emagrecer">
-Emagrecer
-</option>
-
-<option value="ganhar_massa">
-Ganhar Massa Muscular
-</option>
-
-<option value="definicao">
-Definição Corporal
-</option>
-
-<option value="manter_peso">
-Manter Peso
-</option>
-
-<option value="melhorar_alimentacao">
-Melhorar Alimentação
-</option>
-
-<option value="energia">
-Aumentar Energia
-</option>
-
-<option value="intestinal">
-Saúde Intestinal
-</option>
-
-<option value="ganho_peso">
-Ganho de Peso Saudável
-</option>
-
-</select>
-
-<button onclick="entrarApp()">
-Entrar
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- APP -->
-
-<section id="appScreen" class="app-screen">
-
-<header class="topbar">
-
-<div>
-<h2 id="usuarioNome">
-Olá
-</h2>
-
-<span>
-Bem-vindo ao SaudeMyFitness
-</span>
-</div>
-
-</header>
-
-<!-- DASHBOARD -->
-
-<section class="dashboard">
-
-<div class="card">
-
-<h3>Carboidratos</h3>
-
-<p id="carboTotal">
-0g
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Água Ideal</h3>
-
-<p id="aguaTotal">
-2.1L
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Energia</h3>
-
-<p id="energiaTotal">
-Boa
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Intestino</h3>
-
-<p id="intestinalTotal">
-Equilibrado
-</p>
-
-</div>
-
-</section>
-
-<!-- REGISTRO ALIMENTAR -->
-
-<section class="alimentacao">
-
-<h2>
-Registrar Alimentação
-</h2>
-
-<input
-type="text"
-id="alimento"
-placeholder="Ex: Inhame"
->
-
-<input
-type="number"
-id="quantidade"
-placeholder="Quantidade em gramas"
->
-
-<button onclick="calcularAlimento()">
-Calcular
-</button>
-
-</section>
-
-<!-- RESULTADO -->
-
-<section class="resultado">
-
-<h2>
-Resultado Nutricional
-</h2>
-
-<div id="resultado">
-
-<p>
-Nenhum alimento registrado.
-</p>
-
-</div>
-
-</section>
-
-<!-- CALENDÁRIO -->
-
-<section class="calendario">
-
-<h2>
-Calendário Alimentar
-</h2>
-
-<div class="refeicao">
-☀️ Café da Manhã
-</div>
-
-<div class="refeicao">
-🍎 Lanche da Manhã
-</div>
-
-<div class="refeicao">
-🍛 Almoço
-</div>
-
-<div class="refeicao">
-🥪 Lanche da Tarde
-</div>
-
-<div class="refeicao">
-🥗 Jantar
-</div>
-
-<div class="refeicao">
-💧 Água do Dia
-</div>
-
-</section>
-
-<!-- OBJETIVOS -->
-
-<section class="objetivos">
-
-<h2>
-Objetivos Nutricionais
-</h2>
-
-<ul>
-
-<li>✅ Melhorar Alimentação</li>
-
-<li>✅ Aumentar Energia</li>
-
-<li>✅ Saúde Intestinal</li>
-
-<li>✅ Controle de Carboidratos</li>
-
-<li>✅ Hidratação Diária</li>
-
-</ul>
-
-</section>
-
-<!-- MENU -->
-
-<nav class="menu">
-
-<button>
-🏠 Home
-</button>
-
-<button>
-🍎 Nutrição
-</button>
-
-<button>
-💧 Água
-</button>
-
-<button>
-📊 Relatórios
-</button>
-
-<button>
-🤖 IA
-</button>
-
-</nav>
-
-</section>
-
-<script src="script.js"></script>
-
-</body>
-</html>
-
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#080b10;
+  color:#fff;
+}
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.login-card{
+  width:100%;
+  max-width:420px;
+  background:#11151c;
+  padding:30px;
+  border-radius:28px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(255,107,0,.25);
+}
+
+.logo{
+  width:110px;
+  margin-bottom:15px;
+}
+
+.login-card h1{
+  color:#ff6b00;
+  font-size:32px;
+}
+
+.login-card p{
+  color:#ccc;
+  margin:10px 0 25px;
+}
+
+input,select{
+  width:100%;
+  padding:15px;
+  margin-bottom:14px;
+  border:none;
+  border-radius:14px;
+  background:#1c212b;
+  color:#fff;
+  outline:none;
+}
+
+button{
+  border:none;
+  border-radius:14px;
+  background:#ff6b00;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  padding:14px;
+}
+
+button:hover{
+  background:#ff8500;
+}
+
+.app{
+  display:none;
+  max-width:430px;
+  min-height:100vh;
+  margin:auto;
+  background:#0c1017;
+  padding-bottom:80px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px;
+}
+
+.topbar button{
+  background:none;
+  font-size:20px;
+  padding:8px;
+}
+
+.topbar span{
+  color:#aaa;
+  font-size:13px;
+}
+
+main{
+  padding:15px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.card,.panel{
+  background:linear-gradient(145deg,#151a22,#10141b);
+  border:1px solid #222a35;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.card h3,.panel h3,h2{
+  color:#fff;
+  margin-bottom:8px;
+}
+
+.card strong{
+  font-size:25px;
+  color:#ff6b00;
+}
+
+.card small,.panel small{
+  color:#aaa;
+}
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#252b35;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  width:0%;
+  border-radius:10px;
+  background:#ff6b00;
+}
+
+.dias{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  margin:20px 0;
+  text-align:center;
+}
+
+.dias span{
+  background:#151a22;
+  padding:10px 4px;
+  border-radius:14px;
+  font-size:12px;
+}
+
+.dias .ativo{
+  background:#ff6b00;
+}
+
+.lista div{
+  background:#151a22;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.circle{
+  width:190px;
+  height:190px;
+  border:12px solid #ff6b00;
+  border-radius:50%;
+  margin:30px auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.circle strong{
+  font-size:34px;
+}
+
+.circle.verde{
+  border-color:#72c840;
+}
+
+.bars{
+  height:150px;
+  display:flex;
+  gap:10px;
+  align-items:end;
+  margin:20px 0;
+}
+
+.bars span{
+  flex:1;
+  background:#ff6b00;
+  border-radius:8px 8px 0 0;
+}
+
+.chips{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.chips span{
+  background:#151a22;
+  padding:14px;
+  border-radius:14px;
+  text-align:center;
+}
+
+.chat{
+  min-height:380px;
+}
+
+.bot,.user{
+  max-width:80%;
+  padding:12px;
+  margin-bottom:12px;
+  border-radius:16px;
+  font-size:14px;
+}
+
+.bot{
+  background:#1c212b;
+}
+
+.user{
+  background:#ff6b00;
+  margin-left:auto;
+}
+
+.chat-input{
+  display:flex;
+  gap:8px;
+}
+
+.chat-input input{
+  margin:0;
+}
+
+.chat-input button{
+  width:55px;
+}
+
+.bottom-menu{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:430px;
+  background:#10141b;
+  border-top:1px solid #222a35;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 4px;
+}
+
+.bottom-menu button{
+  background:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:18px;
+  color:#fff;
+}
+
+.bottom-menu span{
+  font-size:11px;
+}
+
+@media(max-width:380px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .login-card h1{
+    font-size:26px;
+  }
+}
