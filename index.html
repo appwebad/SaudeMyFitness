@@ -1,60 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaudeMyFitness</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#ff6b00">
+</head>
+
 <body>
 
-<div id="app">
+<section id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <img src="logo.png" class="logo" alt="SaudeMyFitness">
+    <h1>SaudeMyFitness</h1>
+    <p>Saúde, nutrição e performance no seu dia.</p>
+
+    <input type="text" id="nome" placeholder="Seu nome">
+    <input type="email" id="email" placeholder="Seu e-mail">
+
+    <select id="objetivo">
+      <option value="">Escolha seu objetivo</option>
+      <option>Emagrecer</option>
+      <option>Ganhar Massa Muscular</option>
+      <option>Definição Corporal</option>
+      <option>Manter Peso</option>
+      <option>Melhorar Alimentação</option>
+      <option>Aumentar Energia</option>
+      <option>Saúde Intestinal</option>
+      <option>Ganho de Peso Saudável</option>
+    </select>
+
+    <button onclick="entrarApp()">Entrar</button>
+  </div>
+</section>
+
+<div id="app" class="app">
 
 <header class="topbar">
-   <button class="menu-btn">☰</button>
-   <h1>SaudeMyFitness</h1>
-   <button class="notif-btn">🔔</button>
+  <button onclick="voltarDashboard()">☰</button>
+  <div>
+    <h2 id="usuarioNome">Olá</h2>
+    <span>Veja seu resumo de hoje</span>
+  </div>
+  <button>🔔</button>
 </header>
 
-<main id="content">
+<main>
 
-<section id="dashboardPage"></section>
+<section id="dashboardPage" class="page active">
+  <div class="grid">
+    <div class="card">
+      <h3>Carboidratos</h3>
+      <strong id="carboTotal">0g</strong>
+      <small>meta 250g</small>
+    </div>
 
-<section id="nutricaoPage"></section>
+    <div class="card">
+      <h3>Água</h3>
+      <strong id="aguaTotal">0L</strong>
+      <small>meta 2,1L</small>
+    </div>
 
-<section id="aguaPage"></section>
+    <div class="card">
+      <h3>Energia</h3>
+      <strong id="energiaTotal">Boa</strong>
+      <small>disposição hoje</small>
+    </div>
 
-<section id="relatoriosPage"></section>
+    <div class="card">
+      <h3>Intestino</h3>
+      <strong id="intestinalTotal">Equilibrado</strong>
+      <small>muito bem</small>
+    </div>
+  </div>
 
-<section id="intestinalPage"></section>
+  <div class="panel">
+    <h3>Calorias</h3>
+    <p><strong id="caloriasTotal">0 kcal</strong> de 2.100 kcal</p>
+    <div class="progress"><span id="caloriasBar"></span></div>
+  </div>
 
-<section id="calendarioPage"></section>
+  <div class="panel">
+    <h3>Próxima refeição</h3>
+    <p>Lanche da tarde - 15:00</p>
+  </div>
+</section>
 
-<section id="iaPage"></section>
+<section id="nutricaoPage" class="page">
+  <h2>Registrar Alimentação</h2>
+
+  <input type="text" id="alimento" placeholder="Ex: inhame, arroz, banana">
+  <input type="number" id="quantidade" placeholder="Quantidade em gramas">
+
+  <button onclick="calcularAlimento()">Calcular</button>
+
+  <div id="resultado" class="panel">
+    <h3>Resultado</h3>
+    <p>Nenhum alimento registrado.</p>
+  </div>
+</section>
+
+<section id="calendarioPage" class="page">
+  <h2>Calendário Alimentar</h2>
+
+  <div class="dias">
+    <span>DOM<br>19</span>
+    <span class="ativo">SEG<br>20</span>
+    <span>TER<br>21</span>
+    <span>QUA<br>22</span>
+    <span>QUI<br>23</span>
+    <span>SEX<br>24</span>
+    <span>SÁB<br>25</span>
+  </div>
+
+  <div class="lista">
+    <div>Café da manhã <small>07:00</small></div>
+    <div>Lanche da manhã <small>10:00</small></div>
+    <div>Almoço <small>12:30</small></div>
+    <div>Lanche da tarde <small>15:00</small></div>
+    <div>Jantar <small>19:00</small></div>
+    <div>Ceia <small>21:30</small></div>
+  </div>
+</section>
+
+<section id="aguaPage" class="page">
+  <h2>Controle de Água</h2>
+
+  <div class="circle">
+    <strong id="aguaCircle">0L</strong>
+    <span>de 2,1L</span>
+  </div>
+
+  <button onclick="adicionarAgua(250)">Adicionar 250ml</button>
+  <button onclick="adicionarAgua(500)">Adicionar 500ml</button>
+
+  <div class="panel">
+    <p id="aguaMensagem">Beba água durante o dia.</p>
+  </div>
+</section>
+
+<section id="relatoriosPage" class="page">
+  <h2>Relatórios</h2>
+
+  <div class="panel">
+    <h3>Carboidratos da semana</h3>
+    <div class="bars">
+      <span style="height:45%"></span>
+      <span style="height:60%"></span>
+      <span style="height:75%"></span>
+      <span style="height:50%"></span>
+      <span style="height:80%"></span>
+      <span style="height:90%"></span>
+      <span style="height:65%"></span>
+    </div>
+    <small>Seg Ter Qua Qui Sex Sáb Dom</small>
+  </div>
+
+  <div class="panel">
+    <h3>Resumo</h3>
+    <p>Carboidratos: <strong id="relCarbo">0g</strong></p>
+    <p>Água: <strong id="relAgua">0L</strong></p>
+    <p>Calorias: <strong id="relCalorias">0 kcal</strong></p>
+  </div>
+</section>
+
+<section id="intestinalPage" class="page">
+  <h2>Saúde Intestinal</h2>
+
+  <div class="circle verde">
+    <strong id="scoreIntestinal">85%</strong>
+    <span>Excelente</span>
+  </div>
+
+  <div class="panel">
+    <p>Continue consumindo fibras, água e alimentos naturais.</p>
+  </div>
+
+  <div class="chips">
+    <span>Aveia</span>
+    <span>Mamão</span>
+    <span>Linhaça</span>
+    <span>Chia</span>
+  </div>
+</section>
+
+<section id="iaPage" class="page">
+  <h2>Assistente IA</h2>
+
+  <div id="chat" class="chat">
+    <div class="bot">Olá! Como posso ajudar sua alimentação hoje?</div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="perguntaIA" placeholder="Digite sua pergunta...">
+    <button onclick="responderIA()">➤</button>
+  </div>
+</section>
 
 </main>
 
 <nav class="bottom-menu">
-
-<button data-page="dashboard">
-🏠
-<span>Início</span>
-</button>
-
-<button data-page="nutricao">
-🍎
-<span>Nutrição</span>
-</button>
-
-<button data-page="agua">
-💧
-<span>Água</span>
-</button>
-
-<button data-page="relatorios">
-📊
-<span>Relatórios</span>
-</button>
-
-<button data-page="ia">
-🤖
-<span>IA</span>
-</button>
-
+  <button onclick="mostrarPagina('dashboardPage')">🏠<span>Início</span></button>
+  <button onclick="mostrarPagina('nutricaoPage')">🍎<span>Nutrição</span></button>
+  <button onclick="mostrarPagina('aguaPage')">💧<span>Água</span></button>
+  <button onclick="mostrarPagina('relatoriosPage')">📊<span>Relatórios</span></button>
+  <button onclick="mostrarPagina('iaPage')">🤖<span>IA</span></button>
 </nav>
 
 </div>
 
+<script src="script.js"></script>
 </body>
+</html>
